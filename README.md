@@ -1,7 +1,7 @@
 # Programação para a Internet
 **Professor: Ely Miranda**
 
->**Graduanda:** *Andressa Ribeiro de Mesquita*
+**Graduanda: Andressa Ribeiro de Mesquita**
 
 >E-mail: rib.mesq.andressa72@gmail.com
 
@@ -11,7 +11,7 @@
  * Flexibilidade
  * Proatividade
  
-## **Interesses Acadêmicos e profissionais**
+## **Interesses Acadêmicos e Profissionais**
 
 >Front-End: Desenvolvedor web e mobile
  
