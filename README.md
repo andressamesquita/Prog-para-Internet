@@ -24,24 +24,23 @@ Repositório destinado a disciplina de Programação para a Internet
  
 ## Interesses Acadêmicos e Profissionais
 
->Front-End: Desenvolvedor web e mobile
+ * Front-End: Desenvolvedor web e mobile
 
->Empreendedorismo
+ * Empreendedorismo
  
   **Possível Especialização:**
 
->Design de Interação
+ * Design de Interação
 
 
   **Possíveis mestrados:**
 
->Interação Humano-Computador
+ * Interação Humano-Computador
 
->Engenharia de Software
+ * Engenharia de Software
 
 ## Expectativa quanto a disciplina
 ```sh
-- Bom aproveitamento dos conteúdos;
-- Aulas dinâmicas e expositivas;
-- Objetividade;
+- Possuir rendimento e aproveitamento considerável na disciplina a fim de dominar as tecnologias estudadas;
+- Presenciar aulas dinâmicas e expositivas com objetividade;
 ```
