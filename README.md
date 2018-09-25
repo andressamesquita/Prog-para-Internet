@@ -13,8 +13,7 @@ Repositório destinado a disciplina de Programação para a Internet
 #### Técnicas
  * Python
  * Java
- * HTML
- * CSS
+ * HTML, CSS
  
 #### Pessoais
  * Criatividade 
@@ -28,12 +27,12 @@ Repositório destinado a disciplina de Programação para a Internet
 
  * Empreendedorismo
  
-  **Possível Especialização:**
+### Possível Especialização:
 
  * Design de Interação
 
 
-  **Possíveis mestrados:**
+### Possíveis mestrados:
 
  * Interação Humano-Computador
 
