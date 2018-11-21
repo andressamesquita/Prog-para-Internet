@@ -1,0 +1,38 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="pt-br">
+	
+	<head>
+		<meta charset="utf-8">
+		<meta name = "viewport" content="width=device-width">
+		<link href="{% static 'styles/bootstrap.css' %}" rel="stylesheet"/>
+		<link href="{% static 'styles/main.css' %}" rel="stylesheet"/>
+		<title>Questoes</title>
+
+	</head>
+	
+	<body>
+
+		<h1 style="margin-left: 15px;">Questões</h1>
+		<div class= "row content">
+			<div class="col-lg-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<strong>Todas as questões</strong>
+					</div>
+
+						<ul>
+							{% for question in pools %}
+							<li>
+								{{question.question_text}} - {{ question.pub_date}}
+							</li>
+							{% endfor %}
+						</ul>
+				</div>
+
+			</div>	
+		</div>
+			
+		
+	</body>
+</html>

@@ -1,0 +1,19 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name = "viewport" content="width=device-width">
+	<link href="{% static 'styles/bootstrap.css' %}" rel="stylesheet"/>
+	<link href="{% static 'styles/main.css' %}" rel="stylesheet"/>
+	<title>Questões</title>
+</head>
+<body>
+	<h1>Questões</h1>
+	<ul>
+		<li>Questao: {{question.question_text}}</li>
+		<li>Data: {{question.pub_date}}</li>
+	</ul>
+
+</body>
+</html>
