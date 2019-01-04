@@ -1,0 +1,18 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset = "UTF-8"/>
+	<meta name="viewport" content="width=device-width">
+	<title>ConnectedIn</title>
+	<link rel="stylesheet" href="{% static "styles/bootstrap.css" %}"/>
+	<link rel="stylesheet" href="{% static "styles/signin.css" %}"/>
+
+</head>
+<body>
+	<div class="container">
+		{% block body %}
+		{% endblock %}
+	</div>
+</body>
+</html>

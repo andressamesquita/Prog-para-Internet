@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class = "col-lg-12">
+		<h2 style="margin-top: 0px">{{ perfil.nome }}</h2>
+		<address>			
+			<a href = "mailto:{{ perfil.email }}">{{ perfil.email }}</a>
+			<br>
+			<strong>{{ perfil.nome_empresa }}</strong>
+		
+		</address>
+
+		{% if perfil.id != perfil_logado.id %}
+			<a href = "{% url 'convidar' perfil.id %}">Convidar</a><br>
+		{% endif %}
+
+		
+		{% if perfil_logado.super_user %}
+			<a href = "{% url 'super' perfil.id %}">Tornar super usuário</a><br>
+		{% endif %}
+
+		{% if perfil.id == perfil_logado.id %}
+			<a href = "{% url 'mudar_senha' %}">Alterar senha</a><br>
+		{% endif %}
+		
+		
+		{% if perfil.id != perfil_logado.id %}
+			<a href = "{% url 'bloquear' perfil.id %}">Bloquear perfil</a>
+		{% endif %}
+		
+</div>		
+{% endblock %}		
