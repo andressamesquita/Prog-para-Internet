@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Password reset on localhost:8000
+From: webmaster@localhost
+To: and@and.com
+Date: Sun, 06 Jan 2019 16:22:19 -0000
+Message-ID: <154679173939.11184.2071942611645748458@DESKTOP-VEU3RKL>
+
+
+You're receiving this email because you requested a password reset for your user account at localhost:8000.
+
+Please go to the following page and choose a new password:
+
+http://localhost:8000/perfis/reset/MQ/52r-5c011de3d9458e5a1350/
+
+Your username, in case you've forgotten: Andressa
+
+Thanks for using our site!
+
+The localhost:8000 team
+
+
+
+-------------------------------------------------------------------------------
