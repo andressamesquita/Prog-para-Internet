@@ -23,6 +23,7 @@ from django.contrib.auth import views as v
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index,name='index'),
+    path('', views.perfil,name='perfil'),
     path('perfil/<int:perfil_id>', views.exibir_perfil, name='exibir'),
     path('perfil/<int:perfil_id>/convidar',views.convidar, name='convidar'),
     path('convite/<int:convite_id>/aceitar',views.aceitar, name='aceitar'),
@@ -34,5 +35,8 @@ urlpatterns = [
     path('perfil/<int:perfil_id>/super', views.setar_super_user , name='super'),
     path('alterar_senha', mudarSenhaView.as_view(), name='mudar_senha'),
     path('perfil/<int:perfil_id>/bloquear', views.bloquear_perfil, name='bloquear'),
-    path('perfil/<int:perfil_id>/desbloquear', views.desbloquear_perfil, name='desbloquear'),    
+    path('perfil/<int:perfil_id>/desbloquear', views.desbloquear_perfil, name='desbloquear'),
+    path('perfil/postar', views.PostarView.as_view(), name='postar'),
+    path('perfil/<int:post_id>/excluir', views.excluir_post, name='excluir_post'),
+    
 ]

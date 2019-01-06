@@ -31,4 +31,3 @@ class AlterarSenhaForm(forms.Form):
 	senha = forms.CharField(required=True)
 	nova_senha = forms.CharField(required=True)
 	confirma_senha = forms.CharField(required=True)
-	

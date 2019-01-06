@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Perfil(models.Model):
     nome = models.CharField(max_length=255, null=False)
@@ -56,8 +57,14 @@ class Perfil(models.Model):
                 usuarios_nao_bloqueados.append(perfil)
 
         return usuarios_nao_bloqueados
-
     
+    @property
+    def minhas_postagens(self):
+        postagem = Postagem.objects.filter(id = self.id)
+        return postagem
+
+        
+
 class Convite(models.Model):
     solicitante = models.ForeignKey(Perfil,on_delete=models.CASCADE,related_name='convites_feitos' )
     convidado = models.ForeignKey(Perfil, on_delete= models.CASCADE, related_name='convites_recebidos')
@@ -68,5 +75,17 @@ class Convite(models.Model):
         self.delete()
     
     def recusar(self):
-        self.delete()    
-        
+        self.delete()
+
+
+class Postagem(models.Model):
+
+    texto = models.CharField(max_length=255, null=False)
+    dt_publicacao = models.DateTimeField(default=timezone.now)
+    responsavel = models.ForeignKey(Perfil,on_delete=models.CASCADE,related_name='minhas_postagens' )
+
+    def __str__(self):
+        return self.texto
+
+    def excluir_post(self):
+        self.delete()   

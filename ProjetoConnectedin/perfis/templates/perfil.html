@@ -1,31 +1,147 @@
 {% extends 'base.html' %}
 {% block body %}
-<div class = "col-lg-12">
-		<h2 style="margin-top: 0px">{{ perfil.nome }}</h2>
-		<address>			
-			<a href = "mailto:{{ perfil.email }}">{{ perfil.email }}</a>
-			<br>
-			<strong>{{ perfil.nome_empresa }}</strong>
-		
-		</address>
 
-		{% if perfil.id != perfil_logado.id %}
-			<a href = "{% url 'convidar' perfil.id %}">Convidar</a><br>
-		{% endif %}
+<div class="row">
+	<div class = "col-lg-3">
+			<h2 style="margin-top: 0px">{{ perfil.nome }}</h2>
+			<address>			
+				<a href = "mailto:{{ perfil.email }}">{{ perfil.email }}</a>
+				<br>
+				<strong>{{ perfil.nome_empresa }}</strong>
+			
+			</address>
 
-		
-		{% if perfil_logado.super_user %}
-			<a href = "{% url 'super' perfil.id %}">Tornar super usuário</a><br>
-		{% endif %}
+			{% if perfil.id != perfil_logado.id %}
+				<a href = "{% url 'convidar' perfil.id %}">Convidar</a><br>
+			{% endif %}
+
+			
+			{% if perfil_logado.super_user %}
+				<a href = "{% url 'super' perfil.id %}">Tornar super usuário</a><br>
+			{% endif %}
+
+			{% if perfil.id == perfil_logado.id %}
+				<a href = "{% url 'mudar_senha' %}">Alterar senha</a><br>
+			{% endif %}
+			
+			
+			{% if perfil.id != perfil_logado.id %}
+				<a href = "{% url 'bloquear' perfil.id %}">Bloquear perfil</a>
+			{% endif %}
+
+			{% if perfil.id == perfil_logado.id %}
+				<a href = "{% url 'postar' %}">Publicar</a>
+			{% endif %}
+		</div>
 
 		{% if perfil.id == perfil_logado.id %}
-			<a href = "{% url 'mudar_senha' %}">Alterar senha</a><br>
+			<div class = "col-lg-9">
+				<div class="panel panel-default">
+					{% with total=perfil_logado.contatos.count %}
+						{% if total %}
+							<div class="panel-heading">
+								<strong> {{ total }}  
+									Contato{{ total|pluralize }}
+								</strong>
+							</div>
+							<ul class="list-group">
+								{% for perfil in perfil_logado.contatos.all %}				
+									<li class = "list-group-item">
+										<a href = "{% url 'exibir' perfil.id %}">{{ perfil }}</a>
+										{% if perfil not in perfil_logado.perfis_bloqueados.all %}
+											<a class="pull-right" href="{% url 'desfazer' perfil.id %}">Desfazer amizade</a>
+										{% else %}
+											<p class="pull-right">Bloqueado(a)</p>
+										{% endif %}      
+									</li>
+								{% endfor %}
+							</ul>
+						{% else %}
+							<div class="panel-body">
+								Não há contatos :(
+							</div>    
+						{% endif %}
+					{% endwith %}    
+				</div>    
+			
+				<div class="panel panel-default">
+					{% with total=perfil_logado.convites_recebidos.count %}
+			
+						{% if total %}
+							<div class="panel-heading">
+								<strong> {{ total }}  
+								Convite{{ total|pluralize }} aguardando aprovação</strong>
+							</div>
+							<ul class="list-group">
+								{% for convite in perfil_logado.convites_recebidos.all %}
+									<li class = "list-group-item">
+										
+										<a href = "{% url 'exibir' convite.solicitante.id %}">
+												{{convite.solicitante.nome}}</a>
+												
+										<a class = "pull-right" href = "{% url 'recusar' convite.id %}">recusar</a>
+										<a class = "pull-right" href = "{% url 'aceitar' convite.id %}">aceitar     |</a>
+									
+									</li>
+								{% endfor %}
+						
+						{% else %}
+							<div class="panel-body">
+								Não há convites
+							</div>    
+						{% endif %}
+					{% endwith %}    
+				</div>
+				
+				<div class="panel panel-default">
+					{% with total=perfil_logado.perfis_bloqueados.count %}
+			
+						{% if total %}
+							<div class="panel-heading">
+								<strong> {{ total }}  
+								Perfi{{ total|pluralize }} bloqueado{{ total|pluralize }}</strong>
+							</div>
+							<ul class="list-group">
+								{% for perfil in perfil_logado.perfis_bloqueados.all %}
+									<li class = "list-group-item">
+										
+										<a href = "{% url 'exibir' perfil.id%}">{{perfil}}</a>
+										<a class = "pull-right" href = "{% url 'desbloquear' perfil.id %}">Desbloquear</a>
+									</li>
+								{% endfor %}
+								</ul>
+						{% else %}
+							<div class="panel-body">
+								Não há perfis bloqueados.
+							</div>    
+						{% endif %}
+					{% endwith %}    
+				</div>    
 		{% endif %}
 		
-		
-		{% if perfil.id != perfil_logado.id %}
-			<a href = "{% url 'bloquear' perfil.id %}">Bloquear perfil</a>
+		{% if perfil.id == perfil_logado.id %}
+			{% if perfil_logado.minhas_postagens %}
+				<div class="panel panel-default">
+					<div class="panel-heading"><strong>Postagens</strong>
+					</div>
+					<ul class="list-group">
+						{% for post in perfil_logado.minhas_postagens.all %}		
+							<li class = "list-group-item">
+								{{ post }}									
+								<p>
+									{{ post.dt_publicacao }}
+									<a class = "pull-right" href = "{% url 'excluir_post' post.id %}">Excluir</a>
+								</p>
+							</li>
+						{% endfor %}
+					</ul>
+			{% else %}
+				<div class="panel-body">
+					Você ainda não publicou. :(
+				</div>    
+			{% endif %}
 		{% endif %}
-		
+		</div>
+	</div>	
 </div>		
 {% endblock %}		

@@ -7,103 +7,50 @@
 		</div>
 		{% if perfis %}
 		<ul class="list-group">
-			{% for perfil in perfis %}
-				<li class="list-group-item">
-					<a href = "{% url 'exibir' perfil.id %}">	{{ perfil.nome }} / {{ perfil.email }}
-					</a>	
-				</li>
+            {% for perfil in perfis %}
+                {% if perfil.id != perfil_logado.id %}
+                    <li class="list-group-item">
+                        <a href = "{% url 'exibir' perfil.id %}">	{{ perfil.nome }} / {{ perfil.email }}
+                        </a>	
+                    </li>
+                {% endif %}
+
 			{% endfor %}
 		{% else %}	
 			<p>Não há perfis cadastrados</p>
-		{% endif %}
 		</ul>
-	</div>	
-
-    <div class="panel panel-default">
-        {% with total=perfil_logado.contatos.count %}
-            {% if total %}
-                <div class="panel-heading">
-                    <strong> {{ total }}  
-                        Contato{{ total|pluralize }}
-                    </strong>
-                </div>
-                <ul class="list-group">
-                    {% for perfil in perfil_logado.contatos.all %}
-                        <li class = "list-group-item">
-                            <a href = "{% url 'exibir' perfil.id %}">
-                                {{ perfil }}
-                            </a>
-                            <a class="pull-right" href="{% url 'desfazer' perfil.id %}">
-                                desfazer amizade
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <div class="panel-body">
-                    Não há contatos :(
-                </div>    
-            {% endif %}
-        {% endwith %}    
-    </div>    
-
-    <div class="panel panel-default">
-        {% with total=perfil_logado.convites_recebidos.count %}
-
-            {% if total %}
-                <div class="panel-heading">
-                    <strong> {{ total }}  
-                    Convite{{ total|pluralize }} aguardando aprovação</strong>
-                </div>
-                <ul class="list-group">
-                    {% for convite in perfil_logado.convites_recebidos.all %}
-                        <li class = "list-group-item">
-                            
-                            <a href = "{% url 'exibir' convite.solicitante.id %}">
-                                    {{convite.solicitante.nome}}</a>
-                                       
-                            <a class = "pull-right" href = "{% url 'recusar' convite.id %}">recusar</a>
-                            <a class = "pull-right" href = "{% url 'aceitar' convite.id %}">aceitar     |</a>
-                        
-                        </li>
-                    {% endfor %}
+		{% endif %}
+	</div>
+	
+	<div class="panel panel-default">
             
-            {% else %}
-                <div class="panel-body">
-                    Não há convites
-                </div>    
-            {% endif %}
-        {% endwith %}    
-    </div>
-    
-    <div class="panel panel-default">
-        {% with total=perfil_logado.perfis_bloqueados.count %}
-
-            {% if total %}
-                <div class="panel-heading">
-                    <strong> {{ total }}  
-                    Perfil{{ total|pluralize }} aguardando desbloqueio</strong>
-                </div>
-                <ul class="list-group">
-                    {% for perfil in perfil_logado.perfis_bloqueados.all %}
-                        <li class = "list-group-item">
-                            
-                            <a href = "{% url 'exibir' perfil.id%}">
-                                    {{perfil}}</a>
-                                       
-                            <a class = "pull-right" href = "{% url 'desbloquear' perfil.id %}">Desbloquear</a>
-                           
-                        
-                        </li>
-                    {% endfor %}
-            
-            {% else %}
-                <div class="panel-body">
-                    Não há perfis bloqueados.
-                </div>    
-            {% endif %}
-        {% endwith %}    
-    </div>    
+		{% if perfil_logado.minha_timeline.get_timeline %}
+			<div class="panel-heading">
+				<strong> 
+					Todas as postagens
+				</strong>
+			</div>
+			<ul class="list-group">
+				{% for postagem in perfil_logado.minha_timeline.get_timeline %}
+					<li class = "list-group-item">
+						{{ postagem }}
+						<p>{{ postagem.dt_publicacao }}
+								{% if postagem.responsavel.id == perfil_logado.id %}
+								<a class = "pull-right" href = "{% url 'excluir_post' postagem.id %}">Excluir</a>
+								{% endif %}
+			
+						</p>														
+					
+					</li>
+					
+				{% endfor %}
+			</ul>
+		{% else %}
+			<div class="panel-body">
+				Não há postagens
+			</div>    
+		{% endif %}
+	</div>
 
 </div>
 {% endblock %}

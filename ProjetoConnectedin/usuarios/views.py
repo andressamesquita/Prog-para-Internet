@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.views.generic.base import View
 from perfis.models import Perfil
+from timeline.models import *
 from usuarios.forms import *
 
 
@@ -28,6 +29,8 @@ class RegistrarUsuarioView(View):
 				nome_empresa = dados_form['nome_empresa'], usuario = usuario)
 
 			perfil.save()
+			timeline = Timeline(perfil = perfil)
+			timeline.save()
 			return redirect('index')
 
 
@@ -49,7 +52,6 @@ class mudarSenhaView(View):
 			form = form.cleaned_data
 			if user.check_password(form['senha']):
 				if form['nova_senha'] == form['confirma_senha']:
-					print('i')
 					user.set_password(form['nova_senha'])
 					user.save()
 					messages.success(request, 'Sua senha foi atualizada com sucesso!')
