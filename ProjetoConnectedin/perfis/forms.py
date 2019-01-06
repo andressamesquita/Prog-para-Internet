@@ -6,3 +6,7 @@ from django import forms
 class PostarForm(forms.Form):
 
 	texto = forms.CharField(required=True)
+
+class BuscarForm(forms.Form):
+
+	username = forms.CharField(required=True)

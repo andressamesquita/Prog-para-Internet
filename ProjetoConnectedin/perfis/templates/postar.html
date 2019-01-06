@@ -4,14 +4,13 @@
     <form class = "form-signin" action="{% url 'postar' %}"  method="post">
         {% csrf_token %}
 
-        <h4 class="form-signin-heading">Postagens</h4>
+        <h4 class="form-signin-heading">Publique!</h4>
                 
         <input type="text"	name="texto" id = "id_texto" class = "form-control"
                 placeholder="Escreva algo sobre você..." required>
 
                 
-        <button class="btn btn-lg btn-primary pull-right"
-                            type = "submit" value="Login">Postar</button>
+        <br><button class="btn btn-primary pull-right" type = "submit" >Postar</button>
 
         {% if form.errors %}		
         <div class="alert alert-danger">

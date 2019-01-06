@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="panel panel-default">
+        {% with total=resultado_busca.count %}
+
+            {% if total %}
+                <div class="panel-heading">
+                    <strong>   
+                    Aproximadamente {{ total }} resultado{{ total|pluralize }}</strong>
+                </div>
+                <ul class="list-group">
+                    {% for perfil in resultado_busca.all %}
+                        <li class = "list-group-item">
+                            {{perfil}}
+                            <a class = "pull-right" href = "{% url 'convidar' perfil.id %}">Convidar</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+            {% else %}
+                <div class="panel-body">
+                    Resultado não encontrado.
+                </div>    
+            {% endif %}
+        {% endwith %}    
+    </div>
+
+
+
+{% endblock %}

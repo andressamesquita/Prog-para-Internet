@@ -63,7 +63,7 @@ class Perfil(models.Model):
         postagem = Postagem.objects.filter(id = self.id)
         return postagem
 
-        
+    
 
 class Convite(models.Model):
     solicitante = models.ForeignKey(Perfil,on_delete=models.CASCADE,related_name='convites_feitos' )

@@ -38,5 +38,5 @@ urlpatterns = [
     path('perfil/<int:perfil_id>/desbloquear', views.desbloquear_perfil, name='desbloquear'),
     path('perfil/postar', views.PostarView.as_view(), name='postar'),
     path('perfil/<int:post_id>/excluir', views.excluir_post, name='excluir_post'),
-    
+    path('perfil/buscar', views.BuscarView.as_view(), name='buscar'),
 ]

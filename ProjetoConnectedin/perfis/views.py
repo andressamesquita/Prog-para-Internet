@@ -118,4 +118,17 @@ class PostarView(View):
 
 		return render(request, self.template_name, {'form':form, 'perfil_logado':get_perfil_logado(request)})
 	
+class BuscarView(View):
 
+	def post(self, request):
+		
+		form = BuscarForm(request.POST)
+		
+		if form.is_valid():
+			dados_form = form.cleaned_data
+			resultado_busca = Perfil.objects.filter(nome__icontains= dados_form['username'])
+			return render(request, 'busca.html', {'perfil_logado':get_perfil_logado(request), 'resultado_busca': resultado_busca})
+
+
+		return redirect('perfil')
+	
