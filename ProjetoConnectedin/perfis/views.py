@@ -75,7 +75,6 @@ def setar_super_user(self, perfil_id):
 	perfil.setar_super_user()
 	return redirect('perfil')
 
-	#depois de apertar um botao, permanecer na pagina de perfil
 
 @login_required
 def bloquear_perfil(request, perfil_id):

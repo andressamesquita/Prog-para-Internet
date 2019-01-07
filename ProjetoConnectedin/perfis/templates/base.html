@@ -6,46 +6,43 @@
 		<title>ConnectedIn</title>
 		<link rel="stylesheet" href="{% static 'styles/bootstrap.css' %}">
 		<link rel="stylesheet" href="{% static 'styles/main.css' %}">
-
 	</head>
+
 	<body>
 		<div class="container">
 			<div class = "header">
 				<ul class = "nav nav-pills pull-right">
+					<li>
+						<div class="container">
+							<form class = "form-signin" action="{% url 'buscar' %}"  method="post">
+								{% csrf_token %}
+								<h4 class="form-signin-heading"></h4>
+								
+								<button class="btn btn-primary pull-right" type = "submit">Search</button>
+								<input type="text"	name="username"  class = "form-control pull-right" 
+											style="min-width: 200px; min-height: 35px; max-width: 200px; max-height: 35px;"
+													id="nome_id"	placeholder="Buscar..." required>
+			
+								{% if form.errors %}		
+								<div class="alert alert-danger">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+									{{ form.non_field_errors }}
+								</div>		
+								{% endif %}
+							</form>
+						</div>
+					</li>
 					<li><a href = "{% url 'exibir' perfil_logado.id %}">{{ perfil_logado.nome }}</a></li>
 					<li><a href = "/logout/">Logout</a></li>
 				</ul>
 				<h3 class = "text-muted"><a href="{% url 'index' %}">ConnectedIn</a></h3>
 			</div>
 			
-			<div class="container">
-			<form class = "form-signin" action="{% url 'buscar' %}"  method="post">
-				{% csrf_token %}
-				<h4 class="form-signin-heading"></h4>
-				
-				<button class="btn btn-primary pull-right" type = "submit">Search</button>
-				<input type="text"	name="username"  class = "form-control pull-right" 
-				style="min-width: 200px; min-height: 35px; max-width: 200px; max-height: 35px;"id="nome_id"	placeholder="Buscar..." required>
-				
-		
-				{% if form.errors %}		
-				<div class="alert alert-danger">
-					<button type="button" class="close"
-							data-dismiss="alert" aria-hidden="true">x</button>
-					{{ form.non_field_errors }}
-				</div>		
-				{% endif %}
-			</form>
-
-		</div>
-
+			
 
 			<div class="row content">
-				
-
 				{% block body%}
 				{% endblock %}
-							
 			</div>		
 		</div>	
 	</body>

@@ -47,11 +47,12 @@
 							<ul class="list-group">
 								{% for perfil in perfil_logado.contatos.all %}				
 									<li class = "list-group-item">
-										<a href = "{% url 'exibir' perfil.id %}">{{ perfil }}</a>
+										<p><a href = "{% url 'exibir' perfil.id %}">{{ perfil }}</a>
 										{% if perfil not in perfil_logado.perfis_bloqueados.all %}
-											<a class="pull-right" href="{% url 'desfazer' perfil.id %}">Desfazer amizade</a>
+											<a class="btn btn-default pull-right" style="min-width: 20px; min-height: 10px;" href="{% url 'desfazer' perfil.id %}">Desfazer amizade</a>
+										</p>
 										{% else %}
-											<p class="pull-right">Bloqueado(a)</p>
+											<h6>Status: Bloqueado(a)</h6>
 										{% endif %}      
 									</li>
 								{% endfor %}
@@ -75,13 +76,13 @@
 							<ul class="list-group">
 								{% for convite in perfil_logado.convites_recebidos.all %}
 									<li class = "list-group-item">
-										
-										<a href = "{% url 'exibir' convite.solicitante.id %}">
-												{{convite.solicitante.nome}}</a>
-												
-										<a class = "pull-right" href = "{% url 'recusar' convite.id %}">recusar</a>
-										<a class = "pull-right" href = "{% url 'aceitar' convite.id %}">aceitar     |</a>
-									
+										<p>
+											<a href = "{% url 'exibir' convite.solicitante.id %}">
+													{{convite.solicitante.nome}}</a>
+													
+											<a class="btn btn-danger pull-right" style="min-width: 20px; min-height: 10px;" href = "{% url 'recusar' convite.id %}">recusar</a>
+											<a class="btn btn-success pull-right" style="min-width: 20px; min-height: 10px;" href = "{% url 'aceitar' convite.id %}">aceitar</a>
+										</p>
 									</li>
 								{% endfor %}
 						
@@ -104,9 +105,10 @@
 							<ul class="list-group">
 								{% for perfil in perfil_logado.perfis_bloqueados.all %}
 									<li class = "list-group-item">
-										
-										<a href = "{% url 'exibir' perfil.id%}">{{perfil}}</a>
-										<a class = "pull-right" href = "{% url 'desbloquear' perfil.id %}">Desbloquear</a>
+										<p>
+											<a href = "{% url 'exibir' perfil.id%}">{{perfil}}</a>
+											<a class="btn btn-default pull-right" style="min-width: 20px; min-height: 10px;" href = "{% url 'desbloquear' perfil.id %}">Desbloquear</a>
+										</p>
 									</li>
 								{% endfor %}
 								</ul>
@@ -129,8 +131,9 @@
 							<li class = "list-group-item">
 								{{ post }}									
 								<p>
+									<hr>
 									{{ post.dt_publicacao }}
-									<a class = "pull-right" href = "{% url 'excluir_post' post.id %}">Excluir</a>
+									<a class="btn btn-default pull-right" style="min-width: 20px; min-height: 10px;" href = "{% url 'excluir_post' post.id %}">Excluir</a>
 								</p>
 							</li>
 						{% endfor %}

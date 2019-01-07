@@ -52,18 +52,14 @@ class Perfil(models.Model):
     @property
     def perfis_nao_bloqueados(self):
         usuarios_nao_bloqueados = []
-        for perfil in Perfil.objects.all():
-            if perfil not in self.perfis_bloqueados.all():
-                usuarios_nao_bloqueados.append(perfil)
-
-        return usuarios_nao_bloqueados
+        [usuarios_nao_bloqueados.append(perfil) for perfil in Perfil.objects.all() if perfil not in self.perfis_bloqueados.all]
     
+        return usuarios_nao_bloqueados
+
     @property
     def minhas_postagens(self):
         postagem = Postagem.objects.filter(id = self.id)
         return postagem
-
-    
 
 class Convite(models.Model):
     solicitante = models.ForeignKey(Perfil,on_delete=models.CASCADE,related_name='convites_feitos' )
