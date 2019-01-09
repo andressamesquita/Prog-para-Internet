@@ -2,15 +2,14 @@
 {% block body %}
 
 <div class="panel panel-default">
-        {% with total=resultado_busca.count %}
 
-            {% if total %}
+            {% if resultado_busca %}
                 <div class="panel-heading">
                     <strong>   
                     Aproximadamente {{ total }} resultado{{ total|pluralize }}</strong>
                 </div>
                 <ul class="list-group">
-                    {% for perfil in resultado_busca.all %}
+                    {% for perfil in resultado_busca %}
                         <li class = "list-group-item">
                             {{perfil}}
                             <a class = "pull-right" href = "{% url 'convidar' perfil.id %}">Convidar</a>
@@ -22,7 +21,6 @@
                     Resultado não encontrado.
                 </div>    
             {% endif %}
-        {% endwith %}    
     </div>
 
 

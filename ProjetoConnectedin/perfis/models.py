@@ -9,6 +9,8 @@ class Perfil(models.Model):
     contatos = models.ManyToManyField('self')
     usuario = models.OneToOneField(User, related_name = "perfil", on_delete = models.CASCADE)
     perfis_bloqueados = models.ManyToManyField('self')
+    contatos_bloqueados = models.ManyToManyField('self', related_name = 'meus_contatos_bloqueados', symmetrical=False, through= 'Bloqueio')
+     
 
     @property
     def super_user(self):
@@ -25,10 +27,22 @@ class Perfil(models.Model):
         if self.pode_convidar(perfil_convidado):
             convite = Convite(solicitante=self,convidado = perfil_convidado)
             convite.save()
+    
+    def mostrar_perfil(self, perfil_a_exibir):
+
+        pode_mostrar = True
+        for perfil in perfil_a_exibir.bloqueios_feitos.all():
+            if perfil.perfil_bloqueado.id == self.id:
+                return False 
+
+        return pode_mostrar
+
 
     def pode_convidar(self, perfil_a_convidar):
+
         pode_convidar = False
-        if perfil_a_convidar not in self.contatos.all():
+        convites = Convite.objects.filter(solicitante=self, convidado=perfil_a_convidar).all()
+        if len(convites) == 0 and perfil_a_convidar not in self.contatos.all():
             pode_convidar = True
         return pode_convidar
 
@@ -40,21 +54,47 @@ class Perfil(models.Model):
         self.usuario.is_superuser = True 
         self.usuario.save()
 
+    def pode_bloquear(self, perfil_a_bloquear):
+
+        pode_bloquear = True
+        for perfil in self.bloqueios_feitos.all():
+            if perfil.perfil_bloqueado.id == perfil_a_bloquear.id:
+                return False 
+
+        return pode_bloquear
+
     def bloquear_perfil(self, perfil_id):
         perfil = Perfil.objects.get(id=perfil_id)
-        self.perfis_bloqueados.add(perfil)
-    
-    def desbloquear_perfil(self, perfil_id):
-        perfil = Perfil.objects.get(id=perfil_id)
-        self.perfis_bloqueados.remove(perfil)
-    
+        bloqueio = Bloqueio()
+        bloqueio.perfil_que_bloqueia = self
+        bloqueio.perfil_bloqueado = perfil
+        bloqueio.save()
+  
+  #CORRIGIR
+    @property
+    def perfis_que_bloqueei(self):
+        perf_bloq = []
+        [perf_bloq.append(p.perfil_bloqueado.id) for p in self.bloqueios_feitos()]       
+        
+        return perf_bloq
+ 
     
     @property
-    def perfis_nao_bloqueados(self):
-        usuarios_nao_bloqueados = []
-        [usuarios_nao_bloqueados.append(perfil) for perfil in Perfil.objects.all() if perfil not in self.perfis_bloqueados.all]
+    def bloqueios_feitos(self): #meus_bloqueios
+        return Bloqueio.objects.filter(perfil_que_bloqueia=self)
+
     
-        return usuarios_nao_bloqueados
+    def perfis_que_me_bloquearam(self):
+
+        perfis_bloquearam, perfis = Bloqueio.objects.filter(perfil_bloqueado=self), []
+        [perfis.append(bloqueio.perfil_que_bloqueia) for bloqueio in perfis_bloquearam]
+        return perfis
+
+    # @property
+    # def perfis_nao_bloqueados(self):
+    #     usuarios_nao_bloqueados = []
+    #     [usuarios_nao_bloqueados.append(perfil) for perfil in Perfil.objects.all() if perfil not in self.perfis_bloqueados.all]
+    #     return usuarios_nao_bloqueados
 
     @property
     def minhas_postagens(self):
@@ -62,7 +102,7 @@ class Perfil(models.Model):
         return postagem
 
 class Convite(models.Model):
-    solicitante = models.ForeignKey(Perfil,on_delete=models.CASCADE,related_name='convites_feitos' )
+    solicitante = models.ForeignKey(Perfil, on_delete=models.CASCADE,related_name='convites_feitos' )
     convidado = models.ForeignKey(Perfil, on_delete= models.CASCADE, related_name='convites_recebidos')
 
     def aceitar(self):        
@@ -84,4 +124,12 @@ class Postagem(models.Model):
         return self.texto
 
     def excluir_post(self):
-        self.delete()   
+        self.delete()
+
+class Bloqueio(models.Model):
+
+    perfil_que_bloqueia = models.ForeignKey(Perfil,on_delete=models.CASCADE,related_name='perfis_que_bloqueei')
+    perfil_bloqueado = models.ForeignKey(Perfil,on_delete=models.CASCADE,related_name='perfis_que_estou_bloqueado')
+
+    def desbloquear(self):
+        self.delete()

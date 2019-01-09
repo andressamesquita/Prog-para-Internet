@@ -1,5 +1,37 @@
-<form method="post">
+{% extends "base_usuario.html" %}
+
+{% block body %}
+<!-- <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Save</button>
+</form> -->
+
+<form class = "form-signin" action="{% url 'mudar_senha' %}"  method="post">
+    {% csrf_token %}
+
+    <h2 class="form-signin-heading">Altere sua senha</h2>
+            
+    <input type="password"	name="senha" id = "id_senha" class = "form-control"
+            placeholder="Senha atual" required>
+    
+    <input type="password"	name="nova_senha" id = "id_nova_senha" class = "form-control"
+            placeholder="Nova Senha" required>
+    
+    <input type="password"	name="confirma_senha" id = "id_confirma_nova_senha" class = "form-control"
+            placeholder="Confirme sua nova senha" required>
+
+            
+    <br><button class="btn btn-primary btn-block" type = "submit" >Alterar</button>
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <button class="close" type="button" data-dismiss="alert" aria-hidden="true">&times;</button>
+            Por favor, verifique os dados informados.
+        </div>
+    {% endif %}
+
+
 </form>
+
+{% endblock %}

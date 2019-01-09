@@ -24,10 +24,14 @@ def perfil(request):
 def exibir_perfil(request, perfil_id):
 
 	perfil = Perfil.objects.get(id=perfil_id)
+	perfil_logado = get_perfil_logado(request)
+	pode_convidar = perfil_logado.pode_convidar(perfil_id)
+	pode_bloquear = perfil_logado.pode_bloquear(perfil)
+	pode_mostrar = perfil_logado.mostrar_perfil(perfil)
 
 	return render(request, 'perfil.html',
 		          {'perfil' : perfil, 
-				   'perfil_logado' : get_perfil_logado(request)})
+				   'perfil_logado' : get_perfil_logado(request), 'pode_convidar': pode_convidar, 'pode_bloquear': pode_bloquear, 'mostrar_perfil': pode_mostrar})
 
 
 
@@ -83,9 +87,9 @@ def bloquear_perfil(request, perfil_id):
 	return redirect('perfil')
 
 @login_required
-def desbloquear_perfil(request, perfil_id):
-	perfil_logado = get_perfil_logado(request)
-	perfil_logado.desbloquear_perfil(perfil_id)
+def desbloquear(request, bloqueio_id):
+	bloqueio = Bloqueio.objects.get(id=bloqueio_id)
+	bloqueio.desbloquear()
 	return redirect('perfil')
 
 @login_required
@@ -126,7 +130,13 @@ class BuscarView(View):
 		if form.is_valid():
 			dados_form = form.cleaned_data
 			resultado_busca = Perfil.objects.filter(nome__icontains= dados_form['username'])
-			return render(request, 'busca.html', {'perfil_logado':get_perfil_logado(request), 'resultado_busca': resultado_busca})
+			
+			lista_nao_bloqueados = []	
+			perfil_logado = get_perfil_logado(request)
+			[lista_nao_bloqueados.append(resultado) for resultado in resultado_busca if resultado not in perfil_logado.perfis_que_me_bloquearam()]
+					
+
+			return render(request, 'busca.html', {'perfil_logado':get_perfil_logado(request), 'resultado_busca': lista_nao_bloqueados})
 
 
 		return redirect('perfil')
