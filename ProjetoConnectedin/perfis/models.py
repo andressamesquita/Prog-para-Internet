@@ -8,7 +8,6 @@ class Perfil(models.Model):
     nome_empresa = models.CharField(max_length=255, null=False)
     contatos = models.ManyToManyField('self')
     usuario = models.OneToOneField(User, related_name = "perfil", on_delete = models.CASCADE)
-    perfis_bloqueados = models.ManyToManyField('self')
     contatos_bloqueados = models.ManyToManyField('self', related_name = 'meus_contatos_bloqueados', symmetrical=False, through= 'Bloqueio')
      
 
@@ -30,17 +29,15 @@ class Perfil(models.Model):
     def mostrar_perfil(self, perfil_a_exibir):
 
         pode_mostrar = True
-        for perfil in perfil_a_exibir.bloqueios_feitos.all():
-            if perfil.perfil_bloqueado.id == self.id:
-                return False 
-
+        [return False for perfil in perfil_a_exibir.bloqueios_feitos.all() if perfil.perfil_bloqueado.id == self.id]
+        
         return pode_mostrar
-
 
     def pode_convidar(self, perfil_a_convidar):
 
         pode_convidar = False
         convites = Convite.objects.filter(solicitante=self, convidado=perfil_a_convidar).all()
+        
         if len(convites) == 0 and perfil_a_convidar not in self.contatos.all():
             pode_convidar = True
         return pode_convidar
@@ -56,10 +53,8 @@ class Perfil(models.Model):
     def pode_bloquear(self, perfil_a_bloquear):
 
         pode_bloquear = True
-        for perfil in self.bloqueios_feitos.all():
-            if perfil.perfil_bloqueado.id == perfil_a_bloquear.id:
-                return False 
-
+        [return False for perfil in self.bloqueios_feitos.all() if perfil.perfil_bloqueado.id == perfil_a_bloquear.id]
+         
         return pode_bloquear
 
     def bloquear_perfil(self, perfil_id):
@@ -79,13 +74,7 @@ class Perfil(models.Model):
         perfis_bloquearam, perfis = Bloqueio.objects.filter(perfil_bloqueado=self), []
         [perfis.append(bloqueio.perfil_que_bloqueia) for bloqueio in perfis_bloquearam]
         return perfis
-        
-    # @property
-    # def perfis_nao_bloqueados(self):
-    #     usuarios_nao_bloqueados = []
-    #     [usuarios_nao_bloqueados.append(perfil) for perfil in Perfil.objects.all() if perfil not in self.perfis_bloqueados.all]
-    #     return usuarios_nao_bloqueados
-
+    
     @property
     def minhas_postagens(self):
         postagem = Postagem.objects.filter(id = self.id)
