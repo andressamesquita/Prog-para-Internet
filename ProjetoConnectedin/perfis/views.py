@@ -63,7 +63,7 @@ def desfazer_amizade(request, perfil_id):
 	return get_contexto_perfil(request, perfil_logado.id)
 
 @login_required
-def setar_super_user(self, perfil_id):
+def setar_super_user(request, perfil_id):
 	
 	perfil = Perfil.objects.get(id = perfil_id)
 	perfil.setar_super_user()
