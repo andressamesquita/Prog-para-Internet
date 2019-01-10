@@ -29,8 +29,10 @@ class Perfil(models.Model):
     def mostrar_perfil(self, perfil_a_exibir):
 
         pode_mostrar = True
-        [return False for perfil in perfil_a_exibir.bloqueios_feitos.all() if perfil.perfil_bloqueado.id == self.id]
-        
+        for perfil in perfil_a_exibir.bloqueios_feitos.all():
+            if perfil.perfil_bloqueado.id == self.id:
+                return False
+            
         return pode_mostrar
 
     def pode_convidar(self, perfil_a_convidar):
@@ -53,8 +55,11 @@ class Perfil(models.Model):
     def pode_bloquear(self, perfil_a_bloquear):
 
         pode_bloquear = True
-        [return False for perfil in self.bloqueios_feitos.all() if perfil.perfil_bloqueado.id == perfil_a_bloquear.id]
-         
+        
+        for perfil in self.bloqueios_feitos.all():
+            if perfil.perfil_bloqueado.id == perfil_a_bloquear.id:
+                return False
+            
         return pode_bloquear
 
     def bloquear_perfil(self, perfil_id):
