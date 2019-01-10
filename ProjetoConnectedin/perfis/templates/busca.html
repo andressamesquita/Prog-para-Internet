@@ -2,17 +2,20 @@
 {% block body %}
 
 <div class="panel panel-default">
-
+    
             {% if resultado_busca %}
+
                 <div class="panel-heading">
                     <strong>   
-                    Aproximadamente {{ total }} resultado{{ total|pluralize }}</strong>
+                   Resultados da pesquisa</strong>
                 </div>
                 <ul class="list-group">
                     {% for perfil in resultado_busca %}
                         <li class = "list-group-item">
                             {{perfil}}
+                            {% if perfil.id != request.user.perfil.id and perfil not in request.user.perfil.contatos.all %}
                             <a class = "pull-right" href = "{% url 'convidar' perfil.id %}">Convidar</a>
+                            {% endif %}
                         </li>
                     {% endfor %}
                     </ul>
@@ -21,6 +24,7 @@
                     Resultado não encontrado.
                 </div>    
             {% endif %}
+       
     </div>
 
 

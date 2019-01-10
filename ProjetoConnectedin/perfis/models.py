@@ -12,7 +12,6 @@ class Perfil(models.Model):
     contatos_bloqueados = models.ManyToManyField('self', related_name = 'meus_contatos_bloqueados', symmetrical=False, through= 'Bloqueio')
      
 
-    @property
     def super_user(self):
         return self.usuario.is_superuser
 
@@ -69,15 +68,6 @@ class Perfil(models.Model):
         bloqueio.perfil_que_bloqueia = self
         bloqueio.perfil_bloqueado = perfil
         bloqueio.save()
-  
-  #CORRIGIR
-    @property
-    def perfis_que_bloqueei(self):
-        perf_bloq = []
-        [perf_bloq.append(p.perfil_bloqueado.id) for p in self.bloqueios_feitos()]       
-        
-        return perf_bloq
- 
     
     @property
     def bloqueios_feitos(self): #meus_bloqueios
@@ -89,7 +79,7 @@ class Perfil(models.Model):
         perfis_bloquearam, perfis = Bloqueio.objects.filter(perfil_bloqueado=self), []
         [perfis.append(bloqueio.perfil_que_bloqueia) for bloqueio in perfis_bloquearam]
         return perfis
-
+        
     # @property
     # def perfis_nao_bloqueados(self):
     #     usuarios_nao_bloqueados = []

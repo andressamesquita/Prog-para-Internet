@@ -33,7 +33,17 @@
 			<ul class="list-group">
 				{% for postagem in perfil_logado.minha_timeline.get_timeline %}
 					<li class = "list-group-item">
-						<h4><strong>{{postagem.responsavel}}</strong></h4>
+						<div class="row">
+							<div class = "col-lg-1">
+								<img src="/static/img/photo.jpg" alt="Perfil Icon" style="border-radius: 10px; width:40px; height:40px;">
+							</div>
+							<div class = "col-lg-10">
+									<h4><strong>{{postagem.responsavel}}</strong></h4>
+							</div>
+							
+							
+						</div>
+						
 						<br>
 						{{ postagem }}
 						<hr>

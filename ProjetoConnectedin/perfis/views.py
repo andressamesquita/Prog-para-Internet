@@ -25,7 +25,7 @@ def exibir_perfil(request, perfil_id):
 
 	perfil = Perfil.objects.get(id=perfil_id)
 	perfil_logado = get_perfil_logado(request)
-	pode_convidar = perfil_logado.pode_convidar(perfil_id)
+	pode_convidar = perfil_logado.pode_convidar(perfil)
 	pode_bloquear = perfil_logado.pode_bloquear(perfil)
 	pode_mostrar = perfil_logado.mostrar_perfil(perfil)
 
@@ -45,6 +45,7 @@ def convidar(request,perfil_id):
 		perfil_logado.convidar(perfil_a_convidar)
 	
 	return redirect('index')
+
 
 @login_required
 def get_perfil_logado(request):
