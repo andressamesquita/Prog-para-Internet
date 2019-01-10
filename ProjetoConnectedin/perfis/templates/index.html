@@ -49,7 +49,22 @@
 						<hr>
 						<p>{{ postagem.dt_publicacao }}
 							{% if postagem.responsavel.id == perfil_logado.id %}
-							<a class="btn btn-default pull-right" style="min-width: 20px; min-height: 10px;" href = "{% url 'excluir_post' postagem.id %}">Excluir</a>
+							<button class="btn btn-default pull-right btn-confirm" >Excluir</button>
+
+										<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+											<div class="modal-dialog modal-sm">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+														<h4 class="modal-title" id="myModalLabel">Deseja realmente excluir?</h4>
+													</div>
+													<div class="modal-footer">
+														<a href = "{% url 'excluir_post' postagem.id %}" class="btn btn-success" id="modal-btn-si">Sim</a>
+														<a href = "{% url 'index' %}" class="btn btn-danger" id="modal-btn-no">Não</a>
+													</div>
+												</div>
+											</div>
+										</div>
 							{% endif %}
 						</p>														
 					</li>
@@ -60,7 +75,41 @@
 				Não há postagens
 			</div>    
 		{% endif %}
+
 	</div>
 
 </div>
+
+<script type="text/javascript">
+	
+var modalConfirm = function(callback){
+  
+  $(".btn-confirm").on("click", function(){
+    $("#mi-modal").modal('show');
+  });
+
+  $("#modal-btn-si").on("click", function(){
+    callback(true);
+    $("#mi-modal").modal('hide');
+  });
+  
+  $("#modal-btn-no").on("click", function(){
+    callback(false);
+    $("#mi-modal").modal('hide');
+  });
+};
+
+modalConfirm(function(confirm){
+  if(confirm){
+    //Acciones si el usuario confirma
+    $("#result").html("CONFIRMADO");
+  }else{
+    //Acciones si el usuario no confirma
+    $("#result").html("NO CONFIRMADO");
+  }
+});	
+</script>
+
+
+
 {% endblock %}

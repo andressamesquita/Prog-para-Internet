@@ -116,6 +116,11 @@ class Postagem(models.Model):
     def excluir_post(self):
         self.delete()
 
+    class Meta:
+        ordering = ['-dt_publicacao']
+
+
+
 class Bloqueio(models.Model):
 
     perfil_que_bloqueia = models.ForeignKey(Perfil,on_delete=models.CASCADE,related_name='perfis_que_bloqueei')

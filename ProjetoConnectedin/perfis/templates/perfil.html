@@ -29,7 +29,7 @@
 				
 				{% if perfil.id != perfil_logado.id %}
 					{% if pode_bloquear %}
-					<button class="btn-link" id="btn-confirm">Bloquear perfil</button>
+					<button class="btn-link btn-confirm">Bloquear perfil</button>
 
 						<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
 							<div class="modal-dialog modal-sm">
@@ -157,7 +157,7 @@
 										{{ post.dt_publicacao }}
 										
 
-										<button class="btn btn-default pull-right" id="btn-confirm">Excluir</button>
+										<button class="btn btn-default pull-right btn-confirm">Excluir</button>
 
 										<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
 											<div class="modal-dialog modal-sm">
@@ -194,7 +194,7 @@
 	
 var modalConfirm = function(callback){
   
-  $("#btn-confirm").on("click", function(){
+  $(".btn-confirm").on("click", function(){
     $("#mi-modal").modal('show');
   });
 
