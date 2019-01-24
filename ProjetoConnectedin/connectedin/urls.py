@@ -20,10 +20,10 @@ from perfis import views
 from usuarios.views import *
 from django.contrib.auth import views as v
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index,name='index'),
-    path('', views.perfil,name='perfil'),
     path('perfil/<int:perfil_id>', views.exibir_perfil, name='exibir'),
     path('perfil/<int:perfil_id>/convidar',views.convidar, name='convidar'),
     path('convite/<int:convite_id>/aceitar',views.aceitar, name='aceitar'),
@@ -40,4 +40,13 @@ urlpatterns = [
     path('perfil/<int:post_id>/excluir', views.excluir_post, name='excluir_post'),
     path('perfil/buscar', views.BuscarView.as_view(), name='buscar'),
     path('perfis/', include('django.contrib.auth.urls')),
+   
 ]
+'''
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    '''
+    

@@ -2,15 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+
 class Perfil(models.Model):
     nome = models.CharField(max_length=255, null=False)
     telefone = models.CharField(max_length=20, null= False)
     nome_empresa = models.CharField(max_length=255, null=False)
     contatos = models.ManyToManyField('self')
     usuario = models.OneToOneField(User, related_name = "perfil", on_delete = models.CASCADE)
-    perfis_bloqueados = models.ManyToManyField('self')
     contatos_bloqueados = models.ManyToManyField('self', related_name = 'meus_contatos_bloqueados', symmetrical=False, through= 'Bloqueio')
-     
+   # img_perfil = models.ImageField(upload_to = "static/img/perfil/",blank=True)
 
     def super_user(self):
         return self.usuario.is_superuser
@@ -32,15 +32,15 @@ class Perfil(models.Model):
         pode_mostrar = True
         for perfil in perfil_a_exibir.bloqueios_feitos.all():
             if perfil.perfil_bloqueado.id == self.id:
-                return False 
-
+                return False
+            
         return pode_mostrar
-
 
     def pode_convidar(self, perfil_a_convidar):
 
         pode_convidar = False
         convites = Convite.objects.filter(solicitante=self, convidado=perfil_a_convidar).all()
+        
         if len(convites) == 0 and perfil_a_convidar not in self.contatos.all():
             pode_convidar = True
         return pode_convidar
@@ -56,10 +56,11 @@ class Perfil(models.Model):
     def pode_bloquear(self, perfil_a_bloquear):
 
         pode_bloquear = True
+        
         for perfil in self.bloqueios_feitos.all():
             if perfil.perfil_bloqueado.id == perfil_a_bloquear.id:
-                return False 
-
+                return False
+            
         return pode_bloquear
 
     def bloquear_perfil(self, perfil_id):
@@ -79,13 +80,7 @@ class Perfil(models.Model):
         perfis_bloquearam, perfis = Bloqueio.objects.filter(perfil_bloqueado=self), []
         [perfis.append(bloqueio.perfil_que_bloqueia) for bloqueio in perfis_bloquearam]
         return perfis
-        
-    # @property
-    # def perfis_nao_bloqueados(self):
-    #     usuarios_nao_bloqueados = []
-    #     [usuarios_nao_bloqueados.append(perfil) for perfil in Perfil.objects.all() if perfil not in self.perfis_bloqueados.all]
-    #     return usuarios_nao_bloqueados
-
+    
     @property
     def minhas_postagens(self):
         postagem = Postagem.objects.filter(id = self.id)
@@ -109,12 +104,18 @@ class Postagem(models.Model):
     texto = models.CharField(max_length=255, null=False)
     dt_publicacao = models.DateTimeField(default=timezone.now)
     responsavel = models.ForeignKey(Perfil,on_delete=models.CASCADE,related_name='minhas_postagens' )
+   
 
     def __str__(self):
         return self.texto
 
     def excluir_post(self):
         self.delete()
+
+    class Meta:
+        ordering = ['-dt_publicacao']
+
+
 
 class Bloqueio(models.Model):
 

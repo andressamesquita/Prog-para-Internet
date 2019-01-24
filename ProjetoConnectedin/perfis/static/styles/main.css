@@ -17,6 +17,13 @@ body {
   border-bottom: 1px solid #e5e5e5;
 }
 
+/*
+.div h2{
+  text-align: center; 
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif";
+}
+*/
+
 .header h3 {
   margin-top: 0;
   margin-bottom: 0;
@@ -31,9 +38,9 @@ body {
   border-top: 1px solid #e5e5e5;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1068px) {
   .container {
-    max-width: 730px;
+    max-width: 1030px;
   }
 }
 .container-narrow > hr {

@@ -11,10 +11,10 @@
 		<script src = "{% static 'scripts/vendor/jquery-1.9.1.js' %}" ></script>
 		<script src = "{% static 'scripts/vendor/bootstrap-min.js' %}" ></script>
 		<script src = "{% static 'scripts/vendor/bootbox.min.js' %}" ></script>
-		<script src = "{% static 'scripts/vendor/app.js' %}" ></script>
+		
 	</head>
 
-	<body>
+	<body class="">
 		<div class="container">
 			<div class = "header">
 				<ul class = "nav nav-pills pull-right">
@@ -41,7 +41,7 @@
 					<li><a href = "{% url 'exibir' perfil_logado.id %}">{{ perfil_logado.nome }}</a></li>
 					<li><a href = "/logout/">Logout</a></li>
 				</ul>
-				<h3 class = "text-muted"><a href="{% url 'index' %}">ConnectedIn</a></h3>
+				<h3 class = "text-muted" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif"><a href="{% url 'index' %}">ConnectedIn</a></h3>
 			</div>
 			
 			

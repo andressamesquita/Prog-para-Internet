@@ -4,10 +4,11 @@
 {% if mostrar_perfil %}
 	<div class="row">
 		<div class = "col-lg-3">
-				<img src="/static/img/photo.jpg" alt="Perfil Icon" style="border-radius: 10px;">
+				<!---<img src="{{ MEDIA_URL }}{{ perfil_logado.img_perfil.url }}">-->	
+				<img src="/static/img/photo.jpg" alt="Perfil Icon" style="border-radius: 70px; margin-left: 50px">
 				<hr>
-				<h2 style="margin-top: 0px">{{ perfil.nome }}</h2>
-				<address>			
+				<h2 style="text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">{{ perfil.nome }}</h2>
+				<address style="text-align: center">			
 					<a href = "mailto:{{ perfil.email }}">{{ perfil.email }}</a>
 					<br>
 					<strong>{{ perfil.nome_empresa }}</strong>
@@ -15,21 +16,21 @@
 				</address>
 
 				{% if perfil.id != perfil_logado.id and pode_convidar %}
-					<a href = "{% url 'convidar' perfil.id %}">Convidar</a><br>
+				<p style="text-align: center"><a href = "{% url 'convidar' perfil.id %}">Convidar</a></p>
 				{% endif %}
 
 				
 				{% if perfil_logado.super_user and not perfil.super_user %}
-					<a href = "{% url 'super' perfil.id %}">Tornar super usuário</a><br>
+				<p style="text-align: center"><a href = "{% url 'super' perfil.id %}">Tornar super usuário</a></p>
 				{% endif %}
 
 				{% if perfil.id == perfil_logado.id %}
-					<a href = "{% url 'mudar_senha' %}">Alterar senha</a><br>
+					<p style="text-align: center"><a href = "{% url 'mudar_senha' %}">Alterar senha</a></p>
 				{% endif %}
 				
 				{% if perfil.id != perfil_logado.id %}
 					{% if pode_bloquear %}
-					<button class="btn-link" id="btn-confirm">Bloquear perfil</button>
+					<p style="text-align: center"><button class="btn-link btn-confirm">Bloquear perfil</button></p>
 
 						<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
 							<div class="modal-dialog modal-sm">
@@ -46,155 +47,204 @@
 							</div>
 						</div>
 					{% else %}
-						<h6>Status: Bloqueado(a)</h6>
+						<h6 style="text-align: center">Status: Bloqueado(a)</h6>
 					
 					{% endif %}
 				{% endif %}
 
 				{% if perfil.id == perfil_logado.id %}
-					<a href = "{% url 'postar' %}">Publicar</a>
+					<p style="text-align: center"><a href = "{% url 'postar' %}">Publicar</a></p>
+				
+
+				<hr>	
+				
+				<h3 style="text-align: center; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">Amigos</h3>
+				<nav>
+						
+					<div class="panel panel-default">
+						
+							{% with total=perfil_logado.contatos.count %}
+								{% if total %}
+									
+								<ul class="list-group">
+										{% for perfil in perfil_logado.contatos.all %}				
+											<li class = "list-group-item">
+												<p><a href = "{% url 'exibir' perfil.id %}">{{ perfil }}</a>
+												
+													<a class="btn btn-default pull-right" style="min-width: 20px; min-height: 10px;" href="{% url 'desfazer' perfil.id %}">Desfazer</a>
+												</p>
+																						
+											</li>
+										{% endfor %}
+									</ul>
+								{% else %}
+									<div class="panel-body">
+										Não há amigos :(
+									</div>    
+								{% endif %}
+							{% endwith %}    
+						</div>
+				</nav>
 				{% endif %}
+
+
+
 			</div>
 
 			{% if perfil.id == perfil_logado.id %}
-				<div class = "col-lg-9">
-					<div class="panel panel-default">
-						{% with total=perfil_logado.contatos.count %}
-							{% if total %}
-								<div class="panel-heading">
-									<strong> {{ total }}  
-										Contato{{ total|pluralize }}
-									</strong>
-								</div>
-								<ul class="list-group">
-									{% for perfil in perfil_logado.contatos.all %}				
-										<li class = "list-group-item">
-											<p><a href = "{% url 'exibir' perfil.id %}">{{ perfil }}</a>
-											
-												<a class="btn btn-default pull-right" style="min-width: 20px; min-height: 10px;" href="{% url 'desfazer' perfil.id %}">Desfazer amizade</a>
-											</p>
-											
-											
-											
-										</li>
-									{% endfor %}
-								</ul>
-							{% else %}
-								<div class="panel-body">
-									Não há contatos :(
-								</div>    
-							{% endif %}
-						{% endwith %}    
-					</div>    
-				
-					<div class="panel panel-default">
-						{% with total=perfil_logado.convites_recebidos.count %}
-				
-							{% if total %}
-								<div class="panel-heading">
-									<strong> {{ total }}  
-									Convite{{ total|pluralize }} aguardando aprovação</strong>
-								</div>
-								<ul class="list-group">
-									{% for convite in perfil_logado.convites_recebidos.all %}
-										<li class = "list-group-item">
-											<p>
-												<a href = "{% url 'exibir' convite.solicitante.id %}">
-														{{convite.solicitante.nome}}</a>
-														
-												<a class="btn btn-danger pull-right" style="min-width: 20px; min-height: 10px;" href = "{% url 'recusar' convite.id %}">recusar</a>
-												<a class="btn btn-success pull-right" style="min-width: 20px; min-height: 10px;" href = "{% url 'aceitar' convite.id %}">aceitar</a>
-											</p>
-										</li>
-									{% endfor %}
-							
-							{% else %}
-								<div class="panel-body">
-									Não há convites
-								</div>    
-							{% endif %}
-						{% endwith %}    
-					</div>
-					
-					<div class="panel panel-default">
-						{% with total=perfil_logado.bloqueios_feitos.count %}
-				
-							{% if total %}
-								<div class="panel-heading">
-									<strong> {{ total }}  
-									Perfi{{ total|pluralize }} bloqueado{{ total|pluralize }}</strong>
-								</div>
-								<ul class="list-group">
-									{% for bloqueio in perfil_logado.bloqueios_feitos.all %}
-										<li class = "list-group-item">
-											<p>
-												<a href = "{% url 'exibir' bloqueio.perfil_bloqueado.id %}">{{bloqueio.perfil_bloqueado}}</a>
-												<a class="btn btn-default pull-right" style="min-width: 20px; min-height: 10px;" href = "{% url 'desbloquear' bloqueio.id %}">Desbloquear</a>
-											</p>
-										</li>
-									{% endfor %}
-									</ul>
-							{% else %}
-								<div class="panel-body">
-									Não há perfis bloqueados.
-								</div>    
-							{% endif %}
-						{% endwith %}    
-					</div>    
-			{% endif %}
-			
-			{% if perfil.id == perfil_logado.id %}
-				{% if perfil_logado.minhas_postagens %}
-					<div class="panel panel-default">
-						<div class="panel-heading"><strong>Postagens</strong>
-						</div>
-						<ul class="list-group">
-							{% for post in perfil_logado.minhas_postagens.all %}		
-								<li class = "list-group-item">
-									{{ post }}									
-									<p>
-										<hr>
-										{{ post.dt_publicacao }}
-										
-
-										<button class="btn btn-default pull-right" id="btn-confirm">Excluir</button>
-
-										<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
-											<div class="modal-dialog modal-sm">
-												<div class="modal-content">
-													<div class="modal-header">
-														<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-														<h4 class="modal-title" id="myModalLabel">Deseja realmente excluir?</h4>
-													</div>
-													<div class="modal-footer">
-														<a href = "{% url 'excluir_post' post.id %}" class="btn btn-success" id="modal-btn-si">Sim</a>
-														<a href = "{% url 'exibir' perfil.id %}" class="btn btn-danger" id="modal-btn-no">Não</a>
+				<div class = "col-lg-5">
+				{% if perfil.id == perfil_logado.id %}
+					{% if perfil_logado.minhas_postagens %}
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<strong>Postagens</strong>
+							</div>
+							<ul class="list-group">
+								{% for post in perfil_logado.minhas_postagens.all %}		
+									<li class = "list-group-item">
+										{{ post }}									
+										<p>
+											<hr>
+											{{ post.dt_publicacao }}
+											<button class="btn btn-default pull-right btn-confirm">Excluir</button>
+	
+											<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+												<div class="modal-dialog modal-sm">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+															<h4 class="modal-title" id="myModalLabel">Deseja realmente excluir?</h4>
+														</div>
+														<div class="modal-footer">
+															<a href = "{% url 'excluir_post' post.id %}" class="btn btn-success" id="modal-btn-si">Sim</a>
+															<a href = "{% url 'exibir' perfil.id %}" class="btn btn-danger" id="modal-btn-no">Não</a>
+														</div>
 													</div>
 												</div>
-											</div>
-										</div>		
-									</p>
-								</li>
-							{% endfor %}
-						</ul>
-				{% else %}
-					<div class="panel-body">
-						Você ainda não publicou. :(
-					</div>    
+											</div>		
+										</p>
+									</li>
+								{% endfor %}
+							</ul>
+					{% else %}
+						<div class="panel-body">
+							Você ainda não publicou. :(
+						</div>    
+					{% endif %}
 				{% endif %}
-			{% endif %}
+				</div>
+			</div>	
+		
+			
+			<div class = "col-lg-4">
+				<aside>
+				<div class="panel panel-default">
+					{% with total=perfil_logado.convites_recebidos.count %}
+			
+						{% if total %}
+							<div class="panel-heading">
+								<strong> Você tem {{ total }}  
+								Convite{{ total|pluralize }}</strong>
+							</div>
+							<ul class="list-group">
+								{% for convite in perfil_logado.convites_recebidos.all %}
+									<li class = "list-group-item">
+										<p>
+											<a href = "{% url 'exibir' convite.solicitante.id %}">
+													{{convite.solicitante.nome}}</a>
+													
+											<a class="btn btn-danger pull-right" style="min-width: 20px; min-height: 10px;" href = "{% url 'recusar' convite.id %}">recusar</a>
+											<a class="btn btn-success pull-right" style="min-width: 20px; min-height: 10px;" href = "{% url 'aceitar' convite.id %}">aceitar</a>
+										</p>
+									</li>
+								{% endfor %}
+						
+						{% else %}
+							<div class="panel-body">
+								Não há convites
+							</div>    
+						{% endif %}
+					{% endwith %}    
+				</div>
+
+				
+
+				<div class="panel panel-default">
+					{% with total=perfil_logado.convites_feitos.count %}
+			
+						{% if total %}
+							<div class="panel-heading">
+								<strong> Você fez {{ total }}  
+								convite{{ total|pluralize }}</strong>
+							</div>
+							<ul class="list-group">
+								{% for convite in perfil_logado.convites_feitos.all %}
+									<li class = "list-group-item">
+										<p>
+											<a href = "{% url 'exibir' convite.convidado.id %}">
+													{{convite.convidado.nome}}</a>
+											</p>
+									</li>
+								{% endfor %}
+						
+						{% else %}
+							<div class="panel-body">
+								Você não convidou ninguém :(
+							</div>    
+						{% endif %}
+					{% endwith %}    
+				</div>
+
+
+
+
+
+			</aside>
+			<div class="panel panel-default">
+					{% with total=perfil_logado.bloqueios_feitos.count %}
+			
+						{% if total %}
+							<div class="panel-heading">
+								<strong> {{ total }}  
+								Perfi{{ total|pluralize }} bloqueado{{ total|pluralize }}</strong>
+							</div>
+							<ul class="list-group">
+								{% for bloqueio in perfil_logado.bloqueios_feitos.all %}
+									<li class = "list-group-item">
+										<p>
+											<a href = "{% url 'exibir' bloqueio.perfil_bloqueado.id %}">{{bloqueio.perfil_bloqueado}}</a>
+											<a class="btn btn-default pull-right" style="min-width: 20px; min-height: 10px;" href = "{% url 'desbloquear' bloqueio.id %}">Desbloquear</a>
+										</p>
+									</li>
+								{% endfor %}
+								</ul>
+						{% else %}
+							<div class="panel-body">
+								Não há perfis bloqueados.
+							</div>    
+						{% endif %}
+					{% endwith %}    
+				</div>    
+		{% endif %}
+
+
 			</div>
+				
 		</div>	
-	</div>
-	{% else %}
-	 Usuário não encontrado.
-{% endif %}
+		
+		</div>
+		{% else %}
+		 Usuário não encontrado.
+	{% endif %}
+					
+								
+					
 
 <script type="text/javascript">
 	
 var modalConfirm = function(callback){
   
-  $("#btn-confirm").on("click", function(){
+  $(".btn-confirm").on("click", function(){
     $("#mi-modal").modal('show');
   });
 
