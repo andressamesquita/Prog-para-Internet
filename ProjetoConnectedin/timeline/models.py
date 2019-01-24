@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.db import models
 from perfis.models import *
 
@@ -12,3 +13,19 @@ class Timeline(models.Model):
         [lista_postagens.append(i) for i in postagens_ordenadas if i.responsavel in self.perfil.contatos.all() or i.responsavel.id == self.perfil.id ]       
         
         return lista_postagens
+=======
+from django.db import models
+from perfis.models import *
+
+# Create your models here.
+class Timeline(models.Model):
+    
+    perfil = models.OneToOneField(Perfil, related_name = "minha_timeline", on_delete = models.CASCADE)
+
+    def get_timeline(self):
+        lista_postagens = []
+        postagens_ordenadas = Postagem.objects.all()
+        [lista_postagens.append(i) for i in postagens_ordenadas if i.responsavel in self.perfil.contatos.all() or i.responsavel.id == self.perfil.id ]       
+        
+        return lista_postagens
+>>>>>>> 6a81f82c79f2867fc155461890ae0df28fe837e0

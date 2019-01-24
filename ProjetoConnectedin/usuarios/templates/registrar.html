@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "base_usuario.html" %}
 
 {% block body %}
@@ -37,4 +38,44 @@
 </form>
 
 
+=======
+{% extends "base_usuario.html" %}
+
+{% block body %}
+<form class = "form-signin" action="{% url 'registrar' %}"  method="post">
+	{% csrf_token %}
+
+	<h2 class="form-signin-heading">Crie seu usuário</h2>
+	<input 	name="email" id = "id_email" class = "form-control"
+			placeholder="E-mail *" required autofocus>
+
+	<input 	name="nome" id = "id_nome" class = "form-control"
+			placeholder="Nome *" required>
+
+	<input 	name="senha" id = "id_senha" class = "form-control"
+			type = "password" required>
+	<hr/>
+
+	<input 	name="telefone" id = "id_telefone" class = "form-control"
+			placeholder="Telefone *">
+
+	<input 	name="nome_empresa" id = "id_nome_empresa" 
+			class = "form-control" placeholder="Empresa *">
+	
+	<hr/>			
+
+	<button class="btn btn-lg btn-primary btn-block"
+			type = "submit" value="Login">Registrar</button>
+
+	{% if form.errors %}		
+	<div class="alert alert-danger">
+		<button type="button" class="close"
+				data-dismiss="alert" aria-hidden="true">x</button>
+		{{ form.non_field_errors }}
+	</div>		
+	{% endif %}
+</form>
+
+
+>>>>>>> 6a81f82c79f2867fc155461890ae0df28fe837e0
 {% endblock %}
