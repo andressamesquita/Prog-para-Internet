@@ -5,4 +5,4 @@ class UrlSerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
         model = Url
-        fields = ('texto_url', 'url_encurtada')
+        fields = ('texto_url',)
