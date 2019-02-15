@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">  
+    </head>
+    <body>
+
+        <h2>URLshortner</h2>
+
+
+        <form class = "form-signin" action="{% url 'url_registra' %}" method="POST">
+            {% csrf_token %}
+            <input type="text"	name="texto_url" id = "id_texto" class = "form-control"
+                    placeholder= "Nome" required>
+            <button type = "submit">OK</button>
+        </form>
+       
+        <p><strong>url original:</strong> {{url.texto_url}}</p>
+        <p><strong>url encurtada: </strong> {{url.url_encurtada}}</p>
+          
+      
+
+    </body>
+
+</html>
