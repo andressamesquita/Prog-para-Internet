@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block body %}
+	
+<div class= "row">
+
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<strong>Todos os usuários</strong>
+				<a href="{% url 'new_usuario' %}" class="btn btn-link" role="button" style="float: right;">CADASTRE-SE</a>
+			</div>
+
+				<ul>
+					{% for usuario in mGoal %}
+
+					<li>
+						<a href="{% url 'exibir_usuario' usuario.id %}">{{usuario.nome}}</a>
+							
+
+					</li>
+					{% endfor %}
+					
+				</ul>
+
+				
+		</div>
+
+	</div>	
+
+</div>
+
+
+{% endblock %}

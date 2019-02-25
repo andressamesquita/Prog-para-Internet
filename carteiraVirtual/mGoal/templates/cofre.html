@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block body %}
+
+
+
+
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<strong>Dados do Cofre</strong>
+		{% if cofre.valor_atual >= cofre.valor_total %}
+			<p style="float: right;">META ATINGIDA!</p>
+		{% endif %}
+	</div>
+	
+	<ul>
+		<li>
+			<STRONG>Nome: {{ cofre.nome_grupo }}</STRONG><br>
+			<STRONG>Valor atual: R$ {{ cofre.valor_atual }},00 </STRONG><br>
+			<STRONG>Meta: R$ {{ cofre.valor_total }},00 </STRONG>
+			
+		</li> 
+
+	</ul>
+</div>
+
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<strong>Colaboradores do Cofre {{ cofre.nome_grupo }}</strong>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-4">
+			
+			{% for transacao in transacoes %}
+				<ul>
+					<li>
+						<a href="{% url 'exibir_usuario' transacao.id %}">{{ transacao.nome }}</a>
+		
+					</li> 
+				</ul>
+			{% endfor %}
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}

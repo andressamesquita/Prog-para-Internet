@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block body %}
+
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<strong>Dados do Usuário</strong>
+	</div>
+		<STRONG>Nome: {{ usuario.nome }}</STRONG><br>
+		<STRONG>Saldo: {{ usuario.saldo }}</STRONG>
+</div>
+
+
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<strong>Cofres de {{ usuario.nome }} </strong> 
+		<a href="{% url 'transferencia' usuario.id %}" class="btn btn-link" role="button" style="float: right; ">TRANSFERIR</a>
+	</div>
+
+	
+		{% for transacao in usuario.transacoes_recebidas.all %}
+			<ul>
+				<li>
+				<a href="{% url 'exibir_cofre' transacao.id %}">{{ transacao.nome_grupo }}</a>
+				</li> 
+			</ul>
+		{% endfor %}
+	
+
+</div>
+
+
+<div class="container">
+	
+	<div class="panel panel-default">
+	<div class="panel-heading">
+		<strong>Cofres que {{ usuario.nome }} administra </strong>
+		<a href="{% url 'cofre' usuario.id %}" class="top-menu"><span class="glyphicon glyphicon-plus" style="float: right;"></span></a>
+
+
+	</div>
+
+	<div class="row">
+
+		<ul>
+			{% for adm in usuario.Administrador.all %}
+				<li>
+					<a href="{% url 'exibir_cofre' adm.id %}">{{ adm.nome_grupo }}</a>
+				</li>
+
+			{% endfor %}	
+		</ul>
+	
+	</div>
+
+</div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,21 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "viewport" content="width=device-width">
+		<link href="{% static 'styles/bootstrap.css' %}" rel="stylesheet"/>
+		<link href="{% static 'styles/main.css' %}" rel="stylesheet"/>
+		<title>Criando Cofre</title>
+	</head>
+	
+	<body>
+		  <h1>Novo Grupo/Cofre</h1>
+    <form method="POST" class="post-form">
+    	{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+
+	</body>
+</html>
