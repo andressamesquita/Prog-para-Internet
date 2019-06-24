@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from mGoal.views import *
+from django.conf.urls import include, url
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,5 +28,7 @@ urlpatterns = [
     path('transferencia/<int:usuario_id>', transferencia, name = 'transferencia'),
     path('form_cofre/<int:usuario_id>', form_cofre, name='cofre'),
     path('cadastro_usuario/', cadastro_usuario, name = 'new_usuario'),
+    
+    url('', include('pwa.urls')), # You MUST use an empty string as the URL prefix
 
 ]

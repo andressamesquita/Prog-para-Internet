@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mGoal',
+    'pwa',
 ]
 
 MIDDLEWARE = [
@@ -119,3 +120,28 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+PWA_APP_NAME = 'mGoal'
+PWA_APP_DESCRIPTION = "Uma carteira virtual para grupos de amigos."
+PWA_APP_THEME_COLOR = '#0A0302'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_ICONS = [
+{
+'src': '/static/img/carteira.png',
+'sizes': '160x160'
+}
+]
+PWA_APP_SPLASH_SCREEN = [
+{
+'src': '/static/img/carteira.png',
+'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+}
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'
+
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'mGoal', 'serviceWork.js')

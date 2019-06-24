@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load pwa %}
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 	
@@ -8,6 +10,9 @@
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 		<link href="{% static 'styles/bootstrap.css' %}" rel="stylesheet"/>
 		<link href="{% static 'styles/main.css' %}" rel="stylesheet"/>
+		
+		{% progressive_web_app_meta %}
+		
 		<title>mGoal</title>
 	</head>
 	
